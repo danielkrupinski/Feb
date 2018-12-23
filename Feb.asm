@@ -134,14 +134,6 @@ processId dd ?
 processHandle dd ?
 clientBase dd ?
 localPlayer dd ?
-crosshairID dd ?
-forceAttack dd ?
-team dd ?
-entityList dd ?
-entity dd ?
-entityTeam dd ?
-gameTypeCvar dd ?
-gameTypeValue dd ?
 localPlayerFlags dd ?
 
 section '.rdata' data readable
