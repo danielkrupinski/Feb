@@ -139,14 +139,8 @@ localPlayerFlags dd ?
 section '.rdata' data readable
 
 localPlayerOffset dd 0xCBD6B4
-crosshairIdOffset dd 0xB394
-forceAttackOffset dd 0x30FF2A0
-teamOffset dd 0xF4
-entityListOffset dd 0x4CCDBFC
 flagsOffset dd 0x104
 forceJumpOffset dd 0x5170DB0
-force1 dd 5
-force2 dd 4
 forceJump dd 6
 sleepDuration dq -1
 
