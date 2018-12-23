@@ -52,20 +52,22 @@ start:
     mov [clientBase], eax
     sub esp, sizeof.CLIENT_ID
     mov eax, [processId]
-    mov dword [esp + CLIENT_ID.UniqueProcess], eax
-    mov dword [esp + CLIENT_ID.UniqueThread], 0
-    sub esp, sizeof.OBJECT_ATTRIBUTES
-    mov dword [esp + OBJECT_ATTRIBUTES.Length], sizeof.OBJECT_ATTRIBUTES
-    mov dword [esp + OBJECT_ATTRIBUTES.RootDirectory], 0
-    mov dword [esp + OBJECT_ATTRIBUTES.ObjectName], 0
-    mov dword [esp + OBJECT_ATTRIBUTES.Attributes], 0
-    mov dword [esp + OBJECT_ATTRIBUTES.SecurityDescriptor], 0
-    mov dword [esp + OBJECT_ATTRIBUTES.SecurityQualityOfService], 0
+    mov [clientId.UniqueProcess], eax
+    mov [clientId.UniqueThread], 0
+    mov [objectAttributes.Length], sizeof.OBJECT_ATTRIBUTES
+    mov [objectAttributes.RootDirectory], 0
+    mov [objectAttributes.ObjectName], 0
+    mov [objectAttributes.Attributes], 0
+    mov [objectAttributes.SecurityDescriptor], 0
+    mov [objectAttributes.SecurityQualityOfService], 0
     lea eax, [processHandle]
-    invoke NtOpenProcess, PROCESS_VM_READ + PROCESS_VM_WRITE + PROCESS_VM_OPERATION, esp, esp + sizeof.OBJECT_ATTRIBUTES
-    add esp, sizeof.CLIENT_ID + sizeof.OBJECT_ATTRIBUTES
-    ;test eax, eax
-    ;jnz exit
+    lea ebx, [objectAttributes]
+    lea ecx, [clientId]
+    invoke NtOpenProcess, eax, PROCESS_VM_READ + PROCESS_VM_WRITE + PROCESS_VM_OPERATION, ebx, ecx
+    ;add esp, sizeof.CLIENT_ID + sizeof.OBJECT_ATTRIBUTES
+    test eax, eax
+    jnz exit
+    ;jmp exit
     ;invoke OpenProcess, PROCESS_VM_READ + PROCESS_VM_WRITE + PROCESS_VM_OPERATION, FALSE, [processId]
     ;mov [processHandle], eax
 
@@ -157,6 +159,8 @@ endp
 section '.bss' data readable writable
 
 processId dd ?
+objectAttributes OBJECT_ATTRIBUTES ?
+clientId CLIENT_ID ?
 processHandle dd ?
 clientBase dd ?
 localPlayer dd ?
