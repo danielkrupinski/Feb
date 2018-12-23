@@ -179,4 +179,5 @@ import ntdll, \
        NtDelayExecution, 'NtDelayExecution', \
        NtReadVirtualMemory, 'NtReadVirtualMemory', \
        NtTerminateProcess, 'NtTerminateProcess', \
-       NtWriteVirtualMemory, 'NtWriteVirtualMemory'
+       NtWriteVirtualMemory, 'NtWriteVirtualMemory', \
+       NtOpenProcess, 'NtOpenProcess'
