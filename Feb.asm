@@ -39,7 +39,7 @@ start:
     invoke OpenProcess, PROCESS_VM_READ + PROCESS_VM_WRITE + PROCESS_VM_OPERATION, FALSE, [processId]
     mov [processHandle], eax
 
-triggerbot:
+bunnyhop:
     lea eax, [sleepDuration]
     invoke NtDelayExecution, FALSE, eax
     lea eax, [localPlayer]
@@ -54,46 +54,7 @@ triggerbot:
     invoke GetAsyncKeyState, 0x12
     test eax, eax
     jz triggerbot
-    lea eax, [crosshairID]
-    mov ebx, [localPlayer]
-    add ebx, [crosshairIdOffset]
-    invoke NtReadVirtualMemory, dword [processHandle], ebx, eax, 4, NULL
-    mov eax, [crosshairID]
-    test eax, eax
-    jz triggerbot
-    cmp [crosshairID], 64
-    ja triggerbot
-    mov eax, [clientBase]
-    add eax, 0x3F01C4
-    lea ebx, [gameTypeCvar]
-    invoke NtReadVirtualMemory, dword [processHandle], eax, ebx, 4, NULL
-    mov eax, [gameTypeCvar]
-    add eax, 48
-    lea ebx, [gameTypeValue]
-    invoke NtReadVirtualMemory, dword [processHandle], eax, ebx, 4, NULL
-    mov eax, [gameTypeCvar]
-    xor eax, [gameTypeValue]
-    cmp eax, 6
-    je shoot
-    lea eax, [team]
-    mov ebx, [localPlayer]
-    add ebx, [teamOffset]
-    invoke NtReadVirtualMemory, dword [processHandle], ebx, eax, 4, NULL
-    mov eax, [crosshairID]
-    dec eax
-    mov ecx, 0x10
-    mul ecx
-    add eax, [clientBase]
-    add eax, [entityListOffset]
-    lea ebx, [entity]
-    invoke NtReadVirtualMemory, dword [processHandle], eax, ebx, 4, NULL
-    mov eax, [entity]
-    add eax, [teamOffset]
-    lea ebx, [entityTeam]
-    invoke NtReadVirtualMemory, dword [processHandle], eax, ebx, 4, NULL
-    mov eax, [entityTeam]
-    cmp eax, [team]
-    je triggerbot
+
     
 shoot:
     mov eax, [clientBase]
@@ -191,6 +152,7 @@ crosshairIdOffset dd 0xB394
 forceAttackOffset dd 0x30FF2A0
 teamOffset dd 0xF4
 entityListOffset dd 0x4CCDBFC
+flagsOffset dd 0x104
 force1 dd 5
 force2 dd 4
 sleepDuration dq -1
