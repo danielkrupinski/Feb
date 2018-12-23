@@ -79,15 +79,13 @@ proc findProcessId
     invoke CreateToolhelp32Snapshot, 0x2, 0
     mov [snapshot], eax
     mov [processEntry.dwSize], sizeof.PROCESSENTRY32
-    lea eax, [snapshot]
-    lea ebx, [processEntry]
-    invoke Process32First, [snapshot], ebx
+    lea eax, [processEntry]
+    invoke Process32First, [snapshot], eax
     cmp eax, 1
     jne exit
     loop2:
-        lea eax, [snapshot]
-        lea ebx, [processEntry]
-        invoke Process32Next, [snapshot], ebx
+        lea eax, [processEntry]
+        invoke Process32Next, [snapshot], eax
         cmp eax, 1
         jne exit
         lea eax, [processEntry.szExeFile]
@@ -108,15 +106,13 @@ proc findModuleBase, processID
     invoke CreateToolhelp32Snapshot, 0x8, [processID]
     mov [snapshot], eax
     mov [moduleEntry.dwSize], sizeof.MODULEENTRY32
-    lea eax, [snapshot]
-    lea ebx, [moduleEntry]
-    invoke Module32First, [snapshot], ebx
+    lea eax, [moduleEntry]
+    invoke Module32First, [snapshot], eax
     cmp eax, 1
     jne exit
     loop3:
-        lea eax, [snapshot]
-        lea ebx, [moduleEntry]
-        invoke Module32Next, [snapshot], ebx
+        lea eax, [moduleEntry]
+        invoke Module32Next, [snapshot], eax
         cmp eax, 1
         jne exit
         lea eax, [moduleEntry.szModule]
