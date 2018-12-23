@@ -42,19 +42,22 @@ start:
 bunnyhop:
     lea eax, [sleepDuration]
     invoke NtDelayExecution, FALSE, eax
-    lea eax, [localPlayer]
-    mov ebx, [clientBase]
-    add ebx, [localPlayerOffset]
-    invoke NtReadVirtualMemory, dword [processHandle], ebx, eax, 4, NULL
+    mov eax, [clientBase]
+    add eax, [localPlayerOffset]
+    lea ebx, [localPlayer]
+    invoke NtReadVirtualMemory, dword [processHandle], eax, ebx, 4, NULL
     test eax, eax
     jnz exit
     mov eax, [localPlayer]
     test eax, eax
-    jz triggerbot
+    jz bunnyhop
     invoke GetAsyncKeyState, 0x12
     test eax, eax
-    jz triggerbot
-
+    jz bunnyhop
+    mov eax, [localPlayer]
+    add eax, [flagsOffset]
+    lea ebx, [localPlayerFlags]
+    invoke NtReadVirtualMemory, dword [processHandle], eax, ebx, 4, NULL
     
 shoot:
     mov eax, [clientBase]
@@ -144,6 +147,7 @@ entity dd ?
 entityTeam dd ?
 gameTypeCvar dd ?
 gameTypeValue dd ?
+localPlayerFlags dd ?
 
 section '.rdata' data readable
 
