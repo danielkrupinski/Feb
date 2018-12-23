@@ -45,7 +45,7 @@ bunnyhop:
     mov eax, [clientBase]
     add eax, [localPlayerOffset]
     lea ebx, [localPlayer]
-    invoke NtReadVirtualMemory, dword [processHandle], eax, ebx, 4, NULL
+    invoke NtReadVirtualMemory, [processHandle], eax, ebx, 4, NULL
     test eax, eax
     jnz exit
     mov eax, [localPlayer]
@@ -57,14 +57,14 @@ bunnyhop:
     mov eax, [localPlayer]
     add eax, [flagsOffset]
     lea ebx, [localPlayerFlags]
-    invoke NtReadVirtualMemory, dword [processHandle], eax, ebx, 4, NULL
+    invoke NtReadVirtualMemory, [processHandle], eax, ebx, 4, NULL
     and [localPlayerFlags], 1
     cmp [localPlayerFlags], 1
     jne bunnyhop
     mov eax, [clientBase]
     add eax, [forceJumpOffset]
     lea ebx, [forceJump]
-    invoke NtWriteVirtualMemory, dword [processHandle], eax, ebx, 4, NULL
+    invoke NtWriteVirtualMemory, [processHandle], eax, ebx, 4, NULL
     jmp bunnyhop
 
 exit:
@@ -81,13 +81,13 @@ proc findProcessId
     mov [processEntry.dwSize], sizeof.PROCESSENTRY32
     lea eax, [snapshot]
     lea ebx, [processEntry]
-    invoke Process32First, dword [eax], ebx
+    invoke Process32First, [snapshot], ebx
     cmp eax, 1
     jne exit
     loop2:
         lea eax, [snapshot]
         lea ebx, [processEntry]
-        invoke Process32Next, dword [eax], ebx
+        invoke Process32Next, [snapshot], ebx
         cmp eax, 1
         jne exit
         lea eax, [processEntry.szExeFile]
@@ -110,13 +110,13 @@ proc findModuleBase, processID
     mov [moduleEntry.dwSize], sizeof.MODULEENTRY32
     lea eax, [snapshot]
     lea ebx, [moduleEntry]
-    invoke Module32First, dword [eax], ebx
+    invoke Module32First, [snapshot], ebx
     cmp eax, 1
     jne exit
     loop3:
         lea eax, [snapshot]
         lea ebx, [moduleEntry]
-        invoke Module32Next, dword [eax], ebx
+        invoke Module32Next, [snapshot], ebx
         cmp eax, 1
         jne exit
         lea eax, [moduleEntry.szModule]
