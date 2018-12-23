@@ -51,7 +51,7 @@ bunnyhop:
     mov eax, [localPlayer]
     test eax, eax
     jz bunnyhop
-    invoke GetAsyncKeyState, 0x12
+    invoke GetAsyncKeyState, 0x20
     test eax, eax
     jz bunnyhop
     mov eax, [localPlayer]
