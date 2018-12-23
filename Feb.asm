@@ -61,20 +61,11 @@ bunnyhop:
     and [localPlayerFlags], 1
     cmp [localPlayerFlags], 1
     jne bunnyhop
-
-    
-shoot:
     mov eax, [clientBase]
-    add eax, [forceAttackOffset]
-    lea ebx, [force1]
+    add eax, [forceJumpOffset]
+    lea ebx, [forceJump]
     invoke NtWriteVirtualMemory, dword [processHandle], eax, ebx, 4, NULL
-    lea eax, [sleepDuration]
-    invoke NtDelayExecution, FALSE, eax
-    mov eax, [clientBase]
-    add eax, [forceAttackOffset]
-    lea ebx, [force2]
-    invoke NtWriteVirtualMemory, dword [processHandle], eax, ebx, 4, NULL
-    jmp triggerbot
+    jmp bunnyhop
 
 exit:
     invoke NtTerminateProcess, NULL, 0
@@ -164,6 +155,7 @@ flagsOffset dd 0x104
 forceJumpOffset dd 0x5170DB0
 force1 dd 5
 force2 dd 4
+forceJump dd 6
 sleepDuration dq -1
 
 section '.idata' data readable import
