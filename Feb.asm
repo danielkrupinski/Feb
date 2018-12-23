@@ -50,8 +50,24 @@ start:
     mov [processId], eax
     stdcall findModuleBase, eax
     mov [clientBase], eax
-    invoke OpenProcess, PROCESS_VM_READ + PROCESS_VM_WRITE + PROCESS_VM_OPERATION, FALSE, [processId]
-    mov [processHandle], eax
+    sub esp, sizeof.CLIENT_ID
+    mov eax, [processId]
+    mov dword [esp + CLIENT_ID.UniqueProcess], eax
+    mov dword [esp + CLIENT_ID.UniqueThread], 0
+    sub esp, sizeof.OBJECT_ATTRIBUTES
+    mov dword [esp + OBJECT_ATTRIBUTES.Length], sizeof.OBJECT_ATTRIBUTES
+    mov dword [esp + OBJECT_ATTRIBUTES.RootDirectory], 0
+    mov dword [esp + OBJECT_ATTRIBUTES.ObjectName], 0
+    mov dword [esp + OBJECT_ATTRIBUTES.Attributes], 0
+    mov dword [esp + OBJECT_ATTRIBUTES.SecurityDescriptor], 0
+    mov dword [esp + OBJECT_ATTRIBUTES.SecurityQualityOfService], 0
+    lea eax, [processHandle]
+    invoke NtOpenProcess, PROCESS_VM_READ + PROCESS_VM_WRITE + PROCESS_VM_OPERATION, esp, esp + sizeof.OBJECT_ATTRIBUTES
+    add esp, sizeof.CLIENT_ID + sizeof.OBJECT_ATTRIBUTES
+    ;test eax, eax
+    ;jnz exit
+    ;invoke OpenProcess, PROCESS_VM_READ + PROCESS_VM_WRITE + PROCESS_VM_OPERATION, FALSE, [processId]
+    ;mov [processHandle], eax
 
 bunnyhop:
     lea eax, [sleepDuration]
