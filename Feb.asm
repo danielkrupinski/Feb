@@ -13,7 +13,7 @@ struct PROCESSENTRY32
        th32ParentProcessID     dd ?
        pcPriClassBase          dd ?
        dwFlags                 dd ?
-       szExeFile               dw MAX_PATH dup (?)
+       szExeFile               rb MAX_PATH
 ends
 
 struct MODULEENTRY32
@@ -25,8 +25,8 @@ struct MODULEENTRY32
        modBaseAddr             dd ?
        modBaseSize             dd ?
        hModule                 dd ?
-       szModule                dw 256 dup (?)
-       szExeFile               dw MAX_PATH dup (?)
+       szModule                rb 256
+       szExeFile               rb MAX_PATH
 ends
 
 section '.text' code executable
