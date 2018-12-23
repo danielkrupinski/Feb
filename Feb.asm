@@ -29,6 +29,11 @@ struct MODULEENTRY32
        szExeFile               rb MAX_PATH
 ends
 
+struct CLIENT_ID
+       UniqueProcess dd ?
+       UniqueThread  dd ?
+ends
+
 section '.text' code executable
 
 start:
