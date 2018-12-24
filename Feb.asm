@@ -51,8 +51,6 @@ start:
     mov [clientId.UniqueProcess], eax
     stdcall findModuleBase, eax
     mov [clientBase], eax
-    ;mov eax, [processId]
-    ;mov [clientId.UniqueProcess], eax
     mov [clientId.UniqueThread], 0
     mov [objectAttributes.Length], sizeof.OBJECT_ATTRIBUTES
     mov [objectAttributes.RootDirectory], 0
@@ -64,12 +62,8 @@ start:
     lea ebx, [objectAttributes]
     lea ecx, [clientId]
     invoke NtOpenProcess, eax, PROCESS_VM_READ + PROCESS_VM_WRITE + PROCESS_VM_OPERATION, ebx, ecx
-    ;add esp, sizeof.CLIENT_ID + sizeof.OBJECT_ATTRIBUTES
     test eax, eax
     jnz exit
-    ;jmp exit
-    ;invoke OpenProcess, PROCESS_VM_READ + PROCESS_VM_WRITE + PROCESS_VM_OPERATION, FALSE, [processId]
-    ;mov [processHandle], eax
 
 bunnyhop:
     lea eax, [sleepDuration]
