@@ -171,7 +171,6 @@ import kernel32, \
        CreateToolhelp32Snapshot, 'CreateToolhelp32Snapshot', \
        Module32First, 'Module32First', \
        Module32Next, 'Module32Next', \
-       OpenProcess, 'OpenProcess', \
        Process32First, 'Process32First', \
        Process32Next, 'Process32Next'
 
