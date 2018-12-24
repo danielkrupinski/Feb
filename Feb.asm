@@ -48,11 +48,11 @@ section '.text' code executable
 start:
     stdcall findProcessId
     mov [processId], eax
+    mov [clientId.UniqueProcess], eax
     stdcall findModuleBase, eax
     mov [clientBase], eax
-    sub esp, sizeof.CLIENT_ID
-    mov eax, [processId]
-    mov [clientId.UniqueProcess], eax
+    ;mov eax, [processId]
+    ;mov [clientId.UniqueProcess], eax
     mov [clientId.UniqueThread], 0
     mov [objectAttributes.Length], sizeof.OBJECT_ATTRIBUTES
     mov [objectAttributes.RootDirectory], 0
