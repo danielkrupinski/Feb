@@ -47,7 +47,6 @@ section '.text' code executable
 
 start:
     stdcall findProcessId
-    mov [processId], eax
     mov [clientId.UniqueProcess], eax
     stdcall findModuleBase, eax
     mov [clientBase], eax
@@ -152,9 +151,8 @@ endp
 
 section '.bss' data readable writable
 
-processId dd ?
-objectAttributes OBJECT_ATTRIBUTES ?
 clientId CLIENT_ID ?
+objectAttributes OBJECT_ATTRIBUTES ?
 processHandle dd ?
 clientBase dd ?
 localPlayer dd ?
