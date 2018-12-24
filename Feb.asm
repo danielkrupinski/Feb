@@ -50,13 +50,7 @@ start:
     mov [clientId.UniqueProcess], eax
     stdcall findModuleBase, eax
     mov [clientBase], eax
-    mov [clientId.UniqueThread], 0
     mov [objectAttributes.Length], sizeof.OBJECT_ATTRIBUTES
-    mov [objectAttributes.RootDirectory], 0
-    mov [objectAttributes.ObjectName], 0
-    mov [objectAttributes.Attributes], 0
-    mov [objectAttributes.SecurityDescriptor], 0
-    mov [objectAttributes.SecurityQualityOfService], 0
     lea eax, [processHandle]
     lea ebx, [objectAttributes]
     lea ecx, [clientId]
