@@ -67,9 +67,6 @@ bunnyhop:
     invoke NtReadVirtualMemory, [processHandle], eax, ebx, 4, NULL
     test eax, eax
     jnz exit
-    mov eax, [localPlayer]
-    test eax, eax
-    jz bunnyhop
     invoke GetAsyncKeyState, 0x20
     test eax, eax
     jz bunnyhop
