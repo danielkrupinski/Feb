@@ -51,19 +51,14 @@ start:
     stdcall findModuleBase, eax
     mov [clientBase], eax
     mov [objectAttributes.Length], sizeof.OBJECT_ATTRIBUTES
-    ;lea eax, [processHandle]
-    ;lea ebx, [objectAttributes]
-    ;lea ecx, [clientId]
     invoke NtOpenProcess, processHandle, PROCESS_VM_READ + PROCESS_VM_WRITE + PROCESS_VM_OPERATION, objectAttributes, clientId
     test eax, eax
     jnz exit
 
 bunnyhop:
-    ;lea eax, [sleepDuration]
     invoke NtDelayExecution, FALSE, sleepDuration
     mov eax, [clientBase]
     add eax, [localPlayerOffset]
-    ;lea ebx, [localPlayer]
     invoke NtReadVirtualMemory, [processHandle], eax, localPlayer, 4, NULL
     test eax, eax
     jnz exit
@@ -72,14 +67,11 @@ bunnyhop:
     jz bunnyhop
     mov eax, [localPlayer]
     add eax, [flagsOffset]
-    ;lea ebx, [localPlayerFlags]
     invoke NtReadVirtualMemory, [processHandle], eax, localPlayerFlags, 4, NULL
     and [localPlayerFlags], 1
-    ;cmp [localPlayerFlags], 1
     jz bunnyhop
     mov eax, [clientBase]
     add eax, [forceJumpOffset]
-    ;lea ebx, [forceJump]
     invoke NtWriteVirtualMemory, [processHandle], eax, forceJump, 4, NULL
     jmp bunnyhop
 
