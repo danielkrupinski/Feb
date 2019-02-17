@@ -59,12 +59,12 @@ start:
     jnz exit
 
 bunnyhop:
-    lea eax, [sleepDuration]
-    invoke NtDelayExecution, FALSE, eax
+    ;lea eax, [sleepDuration]
+    invoke NtDelayExecution, FALSE, sleepDuration
     mov eax, [clientBase]
     add eax, [localPlayerOffset]
-    lea ebx, [localPlayer]
-    invoke NtReadVirtualMemory, [processHandle], eax, ebx, 4, NULL
+    ;lea ebx, [localPlayer]
+    invoke NtReadVirtualMemory, [processHandle], eax, localPlayer, 4, NULL
     test eax, eax
     jnz exit
     invoke GetAsyncKeyState, 0x20
@@ -72,15 +72,15 @@ bunnyhop:
     jz bunnyhop
     mov eax, [localPlayer]
     add eax, [flagsOffset]
-    lea ebx, [localPlayerFlags]
-    invoke NtReadVirtualMemory, [processHandle], eax, ebx, 4, NULL
+    ;lea ebx, [localPlayerFlags]
+    invoke NtReadVirtualMemory, [processHandle], eax, localPlayerFlags, 4, NULL
     and [localPlayerFlags], 1
     ;cmp [localPlayerFlags], 1
     jz bunnyhop
     mov eax, [clientBase]
     add eax, [forceJumpOffset]
-    lea ebx, [forceJump]
-    invoke NtWriteVirtualMemory, [processHandle], eax, ebx, 4, NULL
+    ;lea ebx, [forceJump]
+    invoke NtWriteVirtualMemory, [processHandle], eax, forceJump, 4, NULL
     jmp bunnyhop
 
 exit:
