@@ -75,8 +75,8 @@ bunnyhop:
     lea ebx, [localPlayerFlags]
     invoke NtReadVirtualMemory, [processHandle], eax, ebx, 4, NULL
     and [localPlayerFlags], 1
-    cmp [localPlayerFlags], 1
-    jne bunnyhop
+    ;cmp [localPlayerFlags], 1
+    jz bunnyhop
     mov eax, [clientBase]
     add eax, [forceJumpOffset]
     lea ebx, [forceJump]
