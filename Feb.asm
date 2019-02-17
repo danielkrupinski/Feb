@@ -51,10 +51,10 @@ start:
     stdcall findModuleBase, eax
     mov [clientBase], eax
     mov [objectAttributes.Length], sizeof.OBJECT_ATTRIBUTES
-    lea eax, [processHandle]
-    lea ebx, [objectAttributes]
-    lea ecx, [clientId]
-    invoke NtOpenProcess, eax, PROCESS_VM_READ + PROCESS_VM_WRITE + PROCESS_VM_OPERATION, ebx, ecx
+    ;lea eax, [processHandle]
+    ;lea ebx, [objectAttributes]
+    ;lea ecx, [clientId]
+    invoke NtOpenProcess, processHandle, PROCESS_VM_READ + PROCESS_VM_WRITE + PROCESS_VM_OPERATION, objectAttributes, clientId
     test eax, eax
     jnz exit
 
