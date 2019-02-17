@@ -63,7 +63,23 @@ start:
 
     mov eax, [processEntry.th32ProcessID]
     mov [clientId.UniqueProcess], eax
-    stdcall findModuleBase, eax
+
+    invoke CreateToolhelp32Snapshot, 0x8, eax
+    mov [snapshot], eax
+    mov [clientDll.dwSize], sizeof.MODULEENTRY32
+    invoke Module32First, [snapshot], clientDll
+    cmp eax, 1
+    jne exit
+    loop3:
+        invoke Module32Next, [snapshot], clientDll
+        cmp eax, 1
+        jne exit
+        cinvoke strcmp, <'client_panorama.dll', 0>, clientDll.szModule
+        test eax, eax
+        jnz loop3
+
+    mov eax, [clientDll.modBaseAddr]
+
     mov [clientBase], eax
     mov [objectAttributes.Length], sizeof.OBJECT_ATTRIBUTES
     invoke NtOpenProcess, processHandle, PROCESS_VM_READ + PROCESS_VM_WRITE + PROCESS_VM_OPERATION, objectAttributes, clientId
@@ -93,37 +109,10 @@ bunnyhop:
 exit:
     invoke NtTerminateProcess, NULL, 0
 
-proc findModuleBase, processID
-    locals
-        moduleEntry MODULEENTRY32 ?
-        snapshot dd ?
-    endl
-
-    invoke CreateToolhelp32Snapshot, 0x8, [processID]
-    mov [snapshot], eax
-    mov [moduleEntry.dwSize], sizeof.MODULEENTRY32
-    lea eax, [moduleEntry]
-    invoke Module32First, [snapshot], eax
-    cmp eax, 1
-    jne exit
-    loop3:
-        lea eax, [moduleEntry]
-        invoke Module32Next, [snapshot], eax
-        cmp eax, 1
-        jne exit
-        lea eax, [moduleEntry.szModule]
-        cinvoke strcmp, <'client_panorama.dll', 0>, eax
-        test eax, eax
-        jnz loop3
-
-    mov eax, [moduleEntry.modBaseAddr]
-    ret
-endp
-
 section '.bss' data readable writable
 
 processEntry PROCESSENTRY32 ?
-moduleEntry MODULEENTRY32 ?
+clientDll MODULEENTRY32 ?
 snapshot dd ?
 clientId CLIENT_ID ?
 objectAttributes OBJECT_ATTRIBUTES ?
