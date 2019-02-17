@@ -46,7 +46,22 @@ ends
 section '.text' code executable
 
 start:
-    stdcall findProcessId
+    invoke CreateToolhelp32Snapshot, 0x2, 0
+    mov [snapshot], eax
+    mov [processEntry.dwSize], sizeof.PROCESSENTRY32
+    invoke Process32First, [snapshot], processEntry
+    cmp eax, 1
+    jne exit
+    loop2:
+        invoke Process32Next, [snapshot], processEntry
+        cmp eax, 1
+        jne exit
+        cinvoke strcmp, <'csgo.exe', 0>, processEntry.szExeFile
+        test eax, eax
+        jnz loop2
+
+
+    mov eax, [processEntry.th32ProcessID]
     mov [clientId.UniqueProcess], eax
     stdcall findModuleBase, eax
     mov [clientBase], eax
@@ -78,33 +93,6 @@ bunnyhop:
 exit:
     invoke NtTerminateProcess, NULL, 0
 
-proc findProcessId
-    locals
-        processEntry PROCESSENTRY32 ?
-        snapshot dd ?
-    endl
-
-    invoke CreateToolhelp32Snapshot, 0x2, 0
-    mov [snapshot], eax
-    mov [processEntry.dwSize], sizeof.PROCESSENTRY32
-    lea eax, [processEntry]
-    invoke Process32First, [snapshot], eax
-    cmp eax, 1
-    jne exit
-    loop2:
-        lea eax, [processEntry]
-        invoke Process32Next, [snapshot], eax
-        cmp eax, 1
-        jne exit
-        lea eax, [processEntry.szExeFile]
-        cinvoke strcmp, <'csgo.exe', 0>, eax
-        test eax, eax
-        jnz loop2
-
-    mov eax, [processEntry.th32ProcessID]
-    ret
-endp
-
 proc findModuleBase, processID
     locals
         moduleEntry MODULEENTRY32 ?
@@ -134,6 +122,9 @@ endp
 
 section '.bss' data readable writable
 
+processEntry PROCESSENTRY32 ?
+moduleEntry MODULEENTRY32 ?
+snapshot dd ?
 clientId CLIENT_ID ?
 objectAttributes OBJECT_ATTRIBUTES ?
 processHandle dd ?
