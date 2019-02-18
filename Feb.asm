@@ -129,7 +129,7 @@ forceJumpOffset dd 0x517E1C4
 forceJump dd 6
 sleepDuration dq -1
 
-section '.idata' data readable import
+section '.idata' import readable
 
 library kernel32, 'kernel32.dll', \
         msvcrt, 'msvcrt.dll', \
