@@ -107,7 +107,7 @@ bunnyhop:
     jmp bunnyhop
 
 exit:
-    invoke NtTerminateProcess, NULL, 0
+    retn
 
 section '.bss' data readable writable
 
@@ -152,6 +152,5 @@ import user32, \
 import ntdll, \
        NtDelayExecution, 'NtDelayExecution', \
        NtReadVirtualMemory, 'NtReadVirtualMemory', \
-       NtTerminateProcess, 'NtTerminateProcess', \
        NtWriteVirtualMemory, 'NtWriteVirtualMemory', \
        NtOpenProcess, 'NtOpenProcess'
