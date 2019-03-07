@@ -123,9 +123,9 @@ localPlayerFlags dd ?
 
 section '.rdata' data readable
 
-localPlayerOffset dd 0xCCA6B4
+localPlayerOffset dd 0xCCB774
 flagsOffset dd 0x104
-forceJumpOffset dd 0x517E234
+forceJumpOffset dd 0x517F5D4
 forceJump dd 6
 sleepDuration dq -1
 
