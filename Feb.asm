@@ -125,7 +125,7 @@ section '.rdata' data readable
 
 localPlayerOffset dd 0xCD2764
 flagsOffset dd 0x104
-forceJumpOffset dd 0x5186998
+forceJumpOffset dd 0x51869A8
 forceJump dd 6
 sleepDuration dq -1
 
