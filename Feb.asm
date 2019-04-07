@@ -96,6 +96,11 @@ bunnyhop:
     invoke GetAsyncKeyState, 0x20
     test eax, eax
     jz bunnyhop
+    mov eax, [clientBase]
+    add eax, [mouseEnableOffset]
+    invoke NtReadVirtualMemory, [processHandle], eax, mouseEnable, 4, NULL
+    and [mouseEnable], 1
+    jz bunnyhop
     mov eax, [localPlayer]
     add eax, [flagsOffset]
     invoke NtReadVirtualMemory, [processHandle], eax, localPlayerFlags, 4, NULL
@@ -120,12 +125,14 @@ processHandle dd ?
 clientBase dd ?
 localPlayer dd ?
 localPlayerFlags dd ?
+mouseEnable dd ?
 
 section '.rdata' data readable
 
 localPlayerOffset dd 0xCD2764
 flagsOffset dd 0x104
 forceJumpOffset dd 0x5186978
+mouseEnableOffset dd 0xCD82B0
 forceJump dd 6
 sleepDuration dq -1
 
