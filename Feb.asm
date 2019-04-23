@@ -129,10 +129,10 @@ mouseEnable dd ?
 
 section '.rdata' data readable
 
-localPlayerOffset dd 0xCD2764
+localPlayerOffset dd 0xCD3764
 flagsOffset dd 0x104
-forceJumpOffset dd 0x5186978
-mouseEnableOffset dd 0xCD82B0
+forceJumpOffset dd 0x5187988
+mouseEnableOffset dd 0xCD92B0
 forceJump dd 6
 sleepDuration dq -1
 
