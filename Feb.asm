@@ -45,10 +45,10 @@ ends
 
 section '.text' code executable
 
-localPlayerOffset dd 0xCF5A4C
-flagsOffset dd 0x104
-forceJumpOffset dd 0x51AB48C
-mouseEnableOffset dd 0xCFB598
+localPlayerOffset equ 0xCF5A4C
+flagsOffset equ 0x104
+forceJumpOffset equ 0x51AB48C
+mouseEnableOffset equ 0xCFB598
 forceJump dd 6
 sleepDuration dq -1
 
@@ -96,7 +96,7 @@ start:
 bunnyhop:
     invoke NtDelayExecution, FALSE, sleepDuration
     mov eax, [clientBase]
-    add eax, [localPlayerOffset]
+    add eax, localPlayerOffset
     invoke NtReadVirtualMemory, [processHandle], eax, localPlayer, 4, NULL
     test eax, eax
     jnz exit
@@ -104,17 +104,17 @@ bunnyhop:
     test eax, eax
     jz bunnyhop
     mov eax, [clientBase]
-    add eax, [mouseEnableOffset]
+    add eax, mouseEnableOffset
     invoke NtReadVirtualMemory, [processHandle], eax, mouseEnable, 4, NULL
     and [mouseEnable], 1
     jz bunnyhop
     mov eax, [localPlayer]
-    add eax, [flagsOffset]
+    add eax, flagsOffset
     invoke NtReadVirtualMemory, [processHandle], eax, localPlayerFlags, 4, NULL
     and [localPlayerFlags], 1
     jz bunnyhop
     mov eax, [clientBase]
-    add eax, [forceJumpOffset]
+    add eax, forceJumpOffset
     invoke NtWriteVirtualMemory, [processHandle], eax, forceJump, 4, NULL
     jmp bunnyhop
 
