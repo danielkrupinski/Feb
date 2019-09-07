@@ -114,6 +114,13 @@ bunnyhop:
 exit:
     retn
 
+localPlayerOffset dd 0xCF5A4C
+flagsOffset dd 0x104
+forceJumpOffset dd 0x51AB48C
+mouseEnableOffset dd 0xCFB598
+forceJump dd 6
+sleepDuration dq -1
+
 section '.bss' data readable writable
 
 processEntry PROCESSENTRY32 ?
@@ -126,15 +133,6 @@ clientBase dd ?
 localPlayer dd ?
 localPlayerFlags dd ?
 mouseEnable dd ?
-
-section '.rdata' data readable
-
-localPlayerOffset dd 0xCF5A4C
-flagsOffset dd 0x104
-forceJumpOffset dd 0x51AB48C
-mouseEnableOffset dd 0xCFB598
-forceJump dd 6
-sleepDuration dq -1
 
 section '.idata' import readable
 
