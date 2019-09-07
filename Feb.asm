@@ -45,6 +45,13 @@ ends
 
 section '.text' code executable
 
+localPlayerOffset dd 0xCF5A4C
+flagsOffset dd 0x104
+forceJumpOffset dd 0x51AB48C
+mouseEnableOffset dd 0xCFB598
+forceJump dd 6
+sleepDuration dq -1
+
 start:
     invoke CreateToolhelp32Snapshot, 0x2, 0
     mov [snapshot], eax
@@ -113,13 +120,6 @@ bunnyhop:
 
 exit:
     retn
-
-localPlayerOffset dd 0xCF5A4C
-flagsOffset dd 0x104
-forceJumpOffset dd 0x51AB48C
-mouseEnableOffset dd 0xCFB598
-forceJump dd 6
-sleepDuration dq -1
 
 section '.bss' data readable writable
 
