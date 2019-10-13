@@ -45,10 +45,10 @@ ends
 
 section '.text' code executable
 
-localPlayerOffset equ 0xCF5A4C
+localPlayerOffset equ 0xCFAA2C
 flagsOffset equ 0x104
-forceJumpOffset equ 0x51AB48C
-mouseEnableOffset equ 0xCFB598
+forceJumpOffset equ 0x51B0708
+mouseEnableOffset equ 0xD00578
 forceJump dd 6
 sleepDuration dq -1
 
@@ -57,15 +57,15 @@ start:
     mov [snapshot], eax
     mov [processEntry.dwSize], sizeof.PROCESSENTRY32
     invoke Process32First, [snapshot], processEntry
-    cmp eax, 1
-    jne exit
-    loop2:
+    test eax, eax
+    jz exit
+    loop1:
         invoke Process32Next, [snapshot], processEntry
-        cmp eax, 1
-        jne exit
+        test eax, eax
+        jz exit
         cinvoke strcmp, <'csgo.exe', 0>, processEntry.szExeFile
         test eax, eax
-        jnz loop2
+        jnz loop1
 
 
     mov eax, [processEntry.th32ProcessID]
@@ -75,15 +75,15 @@ start:
     mov [snapshot], eax
     mov [clientDll.dwSize], sizeof.MODULEENTRY32
     invoke Module32First, [snapshot], clientDll
-    cmp eax, 1
-    jne exit
-    loop3:
+    test eax, eax
+    jz exit
+    loop2:
         invoke Module32Next, [snapshot], clientDll
-        cmp eax, 1
-        jne exit
+        test eax, eax
+        jz exit
         cinvoke strcmp, <'client_panorama.dll', 0>, clientDll.szModule
         test eax, eax
-        jnz loop3
+        jnz loop2
 
     mov eax, [clientDll.modBaseAddr]
 
