@@ -45,10 +45,10 @@ ends
 
 section '.text' code executable
 
-localPlayerOffset equ 0xCFAA2C
+localPlayerOffset equ 0xD3AC5C
 flagsOffset equ 0x104
-forceJumpOffset equ 0x51B0708
-mouseEnableOffset equ 0xD00578
+forceJumpOffset equ 0x51F8E14
+mouseEnableOffset equ 0xD40800
 forceJump dd 6
 sleepDuration dq -1
 
@@ -81,7 +81,7 @@ start:
         invoke Module32Next, [snapshot], clientDll
         test eax, eax
         jz exit
-        cinvoke strcmp, <'client_panorama.dll', 0>, clientDll.szModule
+        cinvoke strcmp, <'client.dll', 0>, clientDll.szModule
         test eax, eax
         jnz loop2
 
