@@ -45,10 +45,10 @@ ends
 
 section '.text' code executable
 
-localPlayerOffset equ 0xD3AC5C
+localPlayerOffset equ 0xD3BC5C
 flagsOffset equ 0x104
-forceJumpOffset equ 0x51F8E14
-mouseEnableOffset equ 0xD40800
+forceJumpOffset equ 0x51F9E44
+mouseEnableOffset equ 0xD41800
 forceJump dd 6
 sleepDuration dq -1
 
