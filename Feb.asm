@@ -47,7 +47,7 @@ section '.text' code executable
 
 localPlayerOffset equ 0xD3DD14
 flagsOffset equ 0x104
-forceJumpOffset equ 0x51FBFB8
+forceJumpOffset equ 0x51FBFA8
 mouseEnableOffset equ 0xD438B8
 forceJump dd 6
 sleepDuration dq -1
@@ -125,6 +125,7 @@ section '.bss' data readable writable
 
 processEntry PROCESSENTRY32 ?
 clientDll MODULEENTRY32 ?
+
 snapshot dd ?
 clientId CLIENT_ID ?
 objectAttributes OBJECT_ATTRIBUTES ?
